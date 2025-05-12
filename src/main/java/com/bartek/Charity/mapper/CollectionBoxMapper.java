@@ -1,21 +1,52 @@
 package com.bartek.Charity.mapper;
 
+import com.bartek.Charity.domain.BoxMoney;
 import com.bartek.Charity.domain.CollectionBox;
 import com.bartek.Charity.dto.request.RegisterCollectionBoxRequest;
 import com.bartek.Charity.dto.response.CollectionBoxResponse;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface CollectionBoxMapper {
+import java.math.BigDecimal;
+import java.util.Set;
 
-    CollectionBox toEntity(RegisterCollectionBoxRequest request);
+@Component
+public class CollectionBoxMapper {
 
-    @Mapping(target = "isEmpty", expression = "java(isBoxEmpty(entity))")
-    CollectionBoxResponse toResponse(CollectionBox entity);
+    public CollectionBox toEntity(RegisterCollectionBoxRequest request) {
+        if (request == null) {
+            return null;
+        }
 
-    default boolean isBoxEmpty(CollectionBox box) {
-        return box.getBoxMoneySet().stream()
-                .allMatch(money -> money.getAmount().compareTo(java.math.BigDecimal.ZERO) == 0);
+        CollectionBox collectionBox = new CollectionBox();
+        collectionBox.setIdentifier(request.identifier());
+        collectionBox.setIsAssigned(false);
+
+        return collectionBox;
+    }
+
+    public CollectionBoxResponse toResponse(CollectionBox entity) {
+        if (entity == null) {
+            return null;
+        }
+
+        return new CollectionBoxResponse(
+                entity.getId(),
+                entity.getIdentifier(),
+                entity.getIsAssigned(),
+                isBoxEmpty(entity)
+        );
+    }
+
+    private boolean isBoxEmpty(CollectionBox box) {
+        Set<BoxMoney> moneySet = box.getBoxMoneySet();
+        if (moneySet == null || moneySet.isEmpty()) {
+            return true;
+        }
+
+        return moneySet.stream()
+                .allMatch(money ->
+                        money.getAmount() == null ||
+                                money.getAmount().compareTo(BigDecimal.ZERO) == 0
+                );
     }
 }
