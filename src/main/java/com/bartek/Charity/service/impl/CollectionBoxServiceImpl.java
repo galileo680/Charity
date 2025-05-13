@@ -37,6 +37,7 @@ public class CollectionBoxServiceImpl implements CollectionBoxService {
     private final ExchangeRateService exchangeRateService;
     private final CollectionBoxMapper collectionBoxMapper;
 
+    @Override
     @Transactional
     public CollectionBoxResponse registerCollectionBox(RegisterCollectionBoxRequest request) {
         if (collectionBoxRepository.existsByIdentifier(request.identifier())) {
@@ -54,6 +55,7 @@ public class CollectionBoxServiceImpl implements CollectionBoxService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     @Transactional
     public void unregisterCollectionBox(String identifier) {
         CollectionBox box = findByIdentifier(identifier);
@@ -63,6 +65,7 @@ public class CollectionBoxServiceImpl implements CollectionBoxService {
         collectionBoxRepository.delete(box);
     }
 
+    @Override
     @Transactional
     public CollectionBoxResponse assignCollectionBox(String identifier, AssignCollectionBoxRequest request) {
         CollectionBox box = findByIdentifierWithMoney(identifier);
@@ -84,6 +87,7 @@ public class CollectionBoxServiceImpl implements CollectionBoxService {
         return collectionBoxMapper.toResponse(savedBox);
     }
 
+    @Override
     @Transactional
     public void addMoneyToBox(String identifier, AddMoneyRequest request) {
         CollectionBox box = findByIdentifier(identifier);
@@ -99,6 +103,7 @@ public class CollectionBoxServiceImpl implements CollectionBoxService {
         boxMoneyRepository.save(boxMoney);
     }
 
+    @Override
     @Transactional
     public MoneyTransferResponse emptyCollectionBox(String identifier) {
         CollectionBox box = findByIdentifierWithMoney(identifier);

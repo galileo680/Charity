@@ -22,6 +22,7 @@ public class FundraisingEventServiceImpl implements FundraisingEventService {
     private final FundraisingEventRepository fundraisingEventRepository;
     private final FundraisingEventMapper fundraisingEventMapper;
 
+    @Override
     @Transactional
     public FundraisingEventResponse createFundraisingEvent(CreateFundraisingEventRequest request) {
         FundraisingEvent event = fundraisingEventMapper.toEntity(request);
@@ -29,12 +30,14 @@ public class FundraisingEventServiceImpl implements FundraisingEventService {
         return fundraisingEventMapper.toResponse(savedEvent);
     }
 
+    @Override
     @Transactional(readOnly = true)
     public FundraisingEvent findById(Long id) {
         return fundraisingEventRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Fundraising event not found with id: " + id));
     }
 
+    @Override
     @Transactional(readOnly = true)
     public List<FinancialReportItemResponse> getFinancialReport() {
         return fundraisingEventRepository.findAll().stream()
