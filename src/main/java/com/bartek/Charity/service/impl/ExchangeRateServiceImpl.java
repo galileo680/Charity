@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -16,7 +17,8 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class ExchangeRateServiceImpl implements ExchangeRateService {
-    private static final String API_URL = "https://open.er-api.com/v6/latest/";
+    @Value("${url.exchange-api}")
+    private String API_URL;
     private final RestTemplate restTemplate;
 
     public BigDecimal getExchangeRate(Currency fromCurrency, Currency toCurrency) {

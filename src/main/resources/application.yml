@@ -32,8 +32,10 @@ server:
   servlet:
     context-path: /api/
 
+url:
+  exchange-api: https://open.er-api.com/v6/latest/
+
 logging:
   level:
     com.example.charity: DEBUG
     org.springframework.web: INFO
-    org.hibernate: INFO
