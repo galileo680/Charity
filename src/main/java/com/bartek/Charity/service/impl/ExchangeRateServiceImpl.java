@@ -63,7 +63,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
         return rates.getOrDefault(key, BigDecimal.ONE);
     }
 
-    private static class ExchangeRateResponse {
+    static class ExchangeRateResponse {
         private Map<String, BigDecimal> rates;
 
         public Map<String, BigDecimal> getRates() {
