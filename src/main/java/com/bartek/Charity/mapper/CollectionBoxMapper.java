@@ -18,7 +18,7 @@ public class CollectionBoxMapper {
         }
 
         CollectionBox collectionBox = new CollectionBox();
-        collectionBox.setIdentifier(request.identifier());
+        collectionBox.setIdentifier(request.getIdentifier());
         collectionBox.setIsAssigned(false);
 
         return collectionBox;

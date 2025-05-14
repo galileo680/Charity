@@ -16,8 +16,8 @@ public class FundraisingEventMapper {
         }
 
         FundraisingEvent event = new FundraisingEvent();
-        event.setName(request.name());
-        event.setAccountCurrency(request.accountCurrency());
+        event.setName(request.getName());
+        event.setAccountCurrency(request.getAccountCurrency());
         event.setAccountBalance(BigDecimal.ZERO);
         return event;
     }

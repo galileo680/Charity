@@ -1,12 +1,20 @@
 package com.bartek.Charity.dto.response;
 
 import com.bartek.Charity.domain.enums.Currency;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-public record FundraisingEventResponse(
-        Long id,
-        String name,
-        Currency accountCurrency,
-        BigDecimal accountBalance
-) {}
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class FundraisingEventResponse {
+    private Long id;
+    private String name;
+    private Currency accountCurrency;
+    private BigDecimal accountBalance;
+}

@@ -1,8 +1,16 @@
 package com.bartek.Charity.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public record RegisterCollectionBoxRequest(
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class RegisterCollectionBoxRequest {
         @NotBlank(message = "Identifier is required")
-        String identifier
-) {}
+        private String identifier;
+}
