@@ -4,11 +4,19 @@ import com.bartek.Charity.domain.enums.Currency;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public record CreateFundraisingEventRequest(
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CreateFundraisingEventRequest {
         @NotBlank(message = "Name is required")
-        String name,
+        private String name;
 
         @NotNull(message = "Account currency is required")
-        Currency accountCurrency
-) {}
+        private Currency accountCurrency;
+}
