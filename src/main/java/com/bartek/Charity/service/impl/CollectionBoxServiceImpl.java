@@ -10,6 +10,8 @@ import com.bartek.Charity.dto.request.RegisterCollectionBoxRequest;
 import com.bartek.Charity.dto.response.CollectionBoxResponse;
 import com.bartek.Charity.dto.response.MoneyTransferResponse;
 import com.bartek.Charity.exception.BusinessException;
+import com.bartek.Charity.exception.InvalidAmountException;
+import com.bartek.Charity.exception.InvalidOperationException;
 import com.bartek.Charity.exception.ResourceNotFoundException;
 import com.bartek.Charity.mapper.CollectionBoxMapper;
 import com.bartek.Charity.repository.BoxMoneyRepository;
@@ -40,8 +42,8 @@ public class CollectionBoxServiceImpl implements CollectionBoxService {
     @Override
     @Transactional
     public CollectionBoxResponse registerCollectionBox(RegisterCollectionBoxRequest request) {
-        if (collectionBoxRepository.existsByIdentifier(request.identifier())) {
-            throw new BusinessException("Collection box with identifier " + request.identifier() + " already exists");
+        if (collectionBoxRepository.existsByIdentifier(request.getIdentifier())) {
+            throw new BusinessException("Collection box with identifier " + request.getIdentifier() + " already exists");
         }
 
         CollectionBox box = collectionBoxMapper.toEntity(request);
@@ -49,6 +51,8 @@ public class CollectionBoxServiceImpl implements CollectionBoxService {
         return collectionBoxMapper.toResponse(savedBox);
     }
 
+    @Override
+    @Transactional(readOnly = true)
     public List<CollectionBoxResponse> listAllCollectionBoxes() {
         return collectionBoxRepository.findAll().stream()
                 .map(collectionBoxMapper::toResponse)
@@ -78,7 +82,7 @@ public class CollectionBoxServiceImpl implements CollectionBoxService {
             throw new BusinessException("Collection box must be empty before assignment");
         }
 
-        FundraisingEvent event = fundraisingEventService.findById(request.fundraisingEventId());
+        FundraisingEvent event = fundraisingEventService.findById(request.getFundraisingEventId());
 
         box.setFundraisingEvent(event);
         box.setIsAssigned(true);
@@ -92,14 +96,14 @@ public class CollectionBoxServiceImpl implements CollectionBoxService {
     public void addMoneyToBox(String identifier, AddMoneyRequest request) {
         CollectionBox box = findByIdentifier(identifier);
 
-        BoxMoney boxMoney = boxMoneyRepository.findByCollectionBoxAndCurrency(box, request.currency())
+        BoxMoney boxMoney = boxMoneyRepository.findByCollectionBoxAndCurrency(box, request.getCurrency())
                 .orElseGet(() -> BoxMoney.builder()
                         .collectionBox(box)
-                        .currency(request.currency())
+                        .currency(request.getCurrency())
                         .amount(BigDecimal.ZERO)
                         .build());
 
-        boxMoney.setAmount(boxMoney.getAmount().add(request.amount()));
+        boxMoney.setAmount(boxMoney.getAmount().add(request.getAmount()));
         boxMoneyRepository.save(boxMoney);
     }
 
@@ -110,6 +114,13 @@ public class CollectionBoxServiceImpl implements CollectionBoxService {
 
         if (!box.getIsAssigned()) {
             throw new BusinessException("Collection box is not assigned to any fundraising event");
+        }
+
+        boolean hasAnyMoney = box.getBoxMoneySet().stream()
+                .anyMatch(money -> money.getAmount().compareTo(BigDecimal.ZERO) > 0);
+
+        if (!hasAnyMoney) {
+            throw new InvalidOperationException("Collection box is empty");
         }
 
         FundraisingEvent event = box.getFundraisingEvent();
