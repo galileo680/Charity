@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: Charity
+
+  datasource:
+    url: jdbc:h2:mem:charity_db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+      indent-output: true
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api/
+
+logging:
+  level:
+    com.example.charity: DEBUG
+    org.springframework.web: INFO
+    org.hibernate: INFO
