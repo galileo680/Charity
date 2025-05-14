@@ -10,7 +10,6 @@ import com.bartek.Charity.dto.request.RegisterCollectionBoxRequest;
 import com.bartek.Charity.dto.response.CollectionBoxResponse;
 import com.bartek.Charity.dto.response.MoneyTransferResponse;
 import com.bartek.Charity.exception.BusinessException;
-import com.bartek.Charity.exception.InvalidAmountException;
 import com.bartek.Charity.exception.InvalidOperationException;
 import com.bartek.Charity.exception.ResourceNotFoundException;
 import com.bartek.Charity.mapper.CollectionBoxMapper;
