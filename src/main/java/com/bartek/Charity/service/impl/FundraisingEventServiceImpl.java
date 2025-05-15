@@ -4,6 +4,7 @@ import com.bartek.Charity.domain.FundraisingEvent;
 import com.bartek.Charity.dto.request.CreateFundraisingEventRequest;
 import com.bartek.Charity.dto.response.FinancialReportItemResponse;
 import com.bartek.Charity.dto.response.FundraisingEventResponse;
+import com.bartek.Charity.exception.BusinessException;
 import com.bartek.Charity.exception.ResourceNotFoundException;
 import com.bartek.Charity.mapper.FundraisingEventMapper;
 import com.bartek.Charity.repository.FundraisingEventRepository;
@@ -25,6 +26,11 @@ public class FundraisingEventServiceImpl implements FundraisingEventService {
     @Override
     @Transactional
     public FundraisingEventResponse createFundraisingEvent(CreateFundraisingEventRequest request) {
+        if (fundraisingEventRepository.existsByNameIgnoreCase(request.getName())) {
+            throw new BusinessException(
+                    "Fundraising event with name '" + request.getName() + "' already exists");
+        }
+
         FundraisingEvent event = fundraisingEventMapper.toEntity(request);
         FundraisingEvent savedEvent = fundraisingEventRepository.save(event);
         return fundraisingEventMapper.toResponse(savedEvent);

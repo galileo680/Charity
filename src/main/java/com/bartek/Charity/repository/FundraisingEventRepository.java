@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FundraisingEventRepository extends JpaRepository<FundraisingEvent, Long> {
+    boolean existsByNameIgnoreCase(String name);
 }
