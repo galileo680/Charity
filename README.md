@@ -34,7 +34,10 @@ The application will start on port 8080.
 
 
 ## API Endpoints
-
+IMPORTANT: Only 3 currencies are available
+- USD
+- PLN
+- EUR
 ### Fundraising Events
 
 #### Create a Fundraising Event
