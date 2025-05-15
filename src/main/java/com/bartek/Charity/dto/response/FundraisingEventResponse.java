@@ -16,5 +16,4 @@ public class FundraisingEventResponse {
     private Long id;
     private String name;
     private Currency accountCurrency;
-    private BigDecimal accountBalance;
 }

@@ -55,7 +55,6 @@ class FundraisingEventControllerTest {
         fundraisingEventResponse.setId(1L);
         fundraisingEventResponse.setName("Charity Event");
         fundraisingEventResponse.setAccountCurrency(Currency.EUR);
-        fundraisingEventResponse.setAccountBalance(BigDecimal.ZERO);
 
         FinancialReportItemResponse item1 = new FinancialReportItemResponse();
         item1.setFundraisingEventName("Charity One");
@@ -81,8 +80,7 @@ class FundraisingEventControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Charity Event"))
-                .andExpect(jsonPath("$.accountCurrency").value("EUR"))
-                .andExpect(jsonPath("$.accountBalance").value(0));
+                .andExpect(jsonPath("$.accountCurrency").value("EUR"));
     }
 
     @Test

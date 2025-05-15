@@ -30,8 +30,7 @@ public class FundraisingEventMapper {
         return new FundraisingEventResponse(
                 entity.getId(),
                 entity.getName(),
-                entity.getAccountCurrency(),
-                entity.getAccountBalance()
+                entity.getAccountCurrency()
         );
     }
 }

@@ -33,7 +33,6 @@ class FundraisingEventMapperTest {
         fundraisingEvent.setId(1L);
         fundraisingEvent.setName("Charity Event");
         fundraisingEvent.setAccountCurrency(Currency.EUR);
-        fundraisingEvent.setAccountBalance(BigDecimal.valueOf(1000.00));
     }
 
     @Test
@@ -61,7 +60,6 @@ class FundraisingEventMapperTest {
         assertEquals(fundraisingEvent.getId(), result.getId());
         assertEquals(fundraisingEvent.getName(), result.getName());
         assertEquals(fundraisingEvent.getAccountCurrency(), result.getAccountCurrency());
-        assertEquals(fundraisingEvent.getAccountBalance(), result.getAccountBalance());
     }
 
     @Test

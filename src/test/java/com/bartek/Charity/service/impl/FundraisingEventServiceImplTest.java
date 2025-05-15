@@ -52,7 +52,6 @@ class FundraisingEventServiceImplTest {
         fundraisingEventResponse.setId(1L);
         fundraisingEventResponse.setName("Charity Event");
         fundraisingEventResponse.setAccountCurrency(Currency.EUR);
-        fundraisingEventResponse.setAccountBalance(BigDecimal.valueOf(1000.00));
 
         createRequest = new CreateFundraisingEventRequest();
         createRequest.setName("Charity Event");
@@ -71,7 +70,6 @@ class FundraisingEventServiceImplTest {
         assertEquals(fundraisingEventResponse.getId(), result.getId());
         assertEquals(fundraisingEventResponse.getName(), result.getName());
         assertEquals(fundraisingEventResponse.getAccountCurrency(), result.getAccountCurrency());
-        assertEquals(fundraisingEventResponse.getAccountBalance(), result.getAccountBalance());
 
         verify(fundraisingEventMapper).toEntity(createRequest);
         verify(fundraisingEventRepository).save(fundraisingEvent);
