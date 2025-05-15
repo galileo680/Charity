@@ -32,6 +32,12 @@ mvn spring-boot:run
 
 The application will start on port 8080 (http://localhost:8080).
 
+## Testing
+
+Run tests with:
+```bash
+mvn test
+```
 
 ## API Endpoints
 IMPORTANT: Only 3 currencies are available
