@@ -30,7 +30,7 @@ mvn clean install
 mvn spring-boot:run
 ```
 
-The application will start on port 8080.
+The application will start on port 8080 (http://localhost:8080).
 
 
 ## API Endpoints
