@@ -5,6 +5,7 @@ import com.bartek.Charity.domain.enums.Currency;
 import com.bartek.Charity.dto.request.CreateFundraisingEventRequest;
 import com.bartek.Charity.dto.response.FinancialReportItemResponse;
 import com.bartek.Charity.dto.response.FundraisingEventResponse;
+import com.bartek.Charity.exception.BusinessException;
 import com.bartek.Charity.exception.ResourceNotFoundException;
 import com.bartek.Charity.mapper.FundraisingEventMapper;
 import com.bartek.Charity.repository.FundraisingEventRepository;
@@ -74,6 +75,18 @@ class FundraisingEventServiceImplTest {
         verify(fundraisingEventMapper).toEntity(createRequest);
         verify(fundraisingEventRepository).save(fundraisingEvent);
         verify(fundraisingEventMapper).toResponse(fundraisingEvent);
+    }
+
+    @Test
+    void createFundraisingEvent_WithDuplicateName_ShouldThrowBusinessException() {
+        when(fundraisingEventRepository.existsByNameIgnoreCase("Charity Event")).thenReturn(true);
+
+        BusinessException ex = assertThrows(BusinessException.class,
+                () -> fundraisingEventService.createFundraisingEvent(createRequest));
+
+        assertEquals("Fundraising event with name 'Charity Event' already exists", ex.getMessage());
+        verify(fundraisingEventRepository).existsByNameIgnoreCase("Charity Event");
+        verify(fundraisingEventRepository, never()).save(any());
     }
 
     @Test
